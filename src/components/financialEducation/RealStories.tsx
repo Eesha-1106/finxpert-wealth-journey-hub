@@ -17,7 +17,19 @@ import { User, Calendar, TrendingUp, PiggyBank, Home, GraduationCap, DollarSign,
 const conversionRates = {
   USD: 83.5, // 1 USD = 83.5 INR
   EUR: 90.2, // 1 EUR = 90.2 INR
-  GBP: 106.5 // 1 GBP = 106.5 INR
+  GBP: 106.5, // 1 GBP = 106.5 INR
+  JPY: 0.55, // 1 JPY = 0.55 INR
+  AUD: 54.8, // 1 AUD = 54.8 INR
+  CAD: 60.2, // 1 CAD = 60.2 INR
+  CHF: 91.3, // 1 CHF = 91.3 INR
+  CNY: 11.5, // 1 CNY = 11.5 INR
+  HKD: 10.7, // 1 HKD = 10.7 INR
+  SGD: 61.2, // 1 SGD = 61.2 INR
+  AED: 22.7, // 1 AED = 22.7 INR
+  SAR: 22.3, // 1 SAR = 22.3 INR
+  MYR: 19.7, // 1 MYR = 19.7 INR
+  NZD: 50.6, // 1 NZD = 50.6 INR
+  THB: 2.3, // 1 THB = 2.3 INR
 };
 
 const stories = [
@@ -142,6 +154,30 @@ const RealStories = () => {
       return `€${amount.toLocaleString('de-DE')}`;
     } else if (currency === "GBP") {
       return `£${amount.toLocaleString('en-GB')}`;
+    } else if (currency === "JPY") {
+      return `¥${amount.toLocaleString('ja-JP')}`;
+    } else if (currency === "AUD") {
+      return `A$${amount.toLocaleString('en-AU')}`;
+    } else if (currency === "CAD") {
+      return `C$${amount.toLocaleString('en-CA')}`;
+    } else if (currency === "CHF") {
+      return `CHF${amount.toLocaleString('de-CH')}`;
+    } else if (currency === "CNY") {
+      return `¥${amount.toLocaleString('zh-CN')}`;
+    } else if (currency === "HKD") {
+      return `HK$${amount.toLocaleString('zh-HK')}`;
+    } else if (currency === "SGD") {
+      return `S$${amount.toLocaleString('en-SG')}`;
+    } else if (currency === "AED") {
+      return `AED${amount.toLocaleString('ar-AE')}`;
+    } else if (currency === "SAR") {
+      return `SAR${amount.toLocaleString('ar-SA')}`;
+    } else if (currency === "MYR") {
+      return `RM${amount.toLocaleString('ms-MY')}`;
+    } else if (currency === "NZD") {
+      return `NZ$${amount.toLocaleString('en-NZ')}`;
+    } else if (currency === "THB") {
+      return `฿${amount.toLocaleString('th-TH')}`;
     }
     return `${amount}`;
   };
