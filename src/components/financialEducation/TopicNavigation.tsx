@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
@@ -37,6 +36,27 @@ interface TopicNavigationProps {
   onFilterChange: (filter: string) => void;
 }
 
+// Prioritized investment categories
+const investmentCategories = [
+  { id: "mutual-funds", label: "Mutual Funds", icon: Layers },
+  { id: "stock-market", label: "Stock Market", icon: TrendingUp },
+  { id: "fixed-deposits", label: "Fixed Deposits", icon: Landmark },
+  { id: "real-estate", label: "Real Estate", icon: Home },
+  { id: "ppf", label: "PPF", icon: Briefcase },
+  { id: "elss", label: "ELSS", icon: Stars },
+  { id: "nps", label: "NPS", icon: Building },
+  { id: "gold-bonds", label: "Gold Bonds", icon: Coins },
+];
+
+// Other financial categories
+const otherCategories = [
+  { id: "investing", label: "General Investing", icon: TrendingUp },
+  { id: "debt", label: "Debt Management", icon: CreditCard },
+  { id: "credit", label: "Credit Score", icon: Shield },
+  { id: "retirement", label: "Retirement", icon: Clock },
+  { id: "planning", label: "Financial Planning", icon: Calculator },
+];
+
 const TopicNavigation = ({ activeFilter, onFilterChange }: TopicNavigationProps) => {
   return (
     <div className="mb-12">
@@ -55,120 +75,43 @@ const TopicNavigation = ({ activeFilter, onFilterChange }: TopicNavigationProps)
             <TabsTrigger value="all" className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700">
               All Topics
             </TabsTrigger>
-            <TabsTrigger value="investing" className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 flex gap-2 items-center">
-              <TrendingUp className="h-4 w-4" />
-              <span>Investing</span>
-            </TabsTrigger>
-            <TabsTrigger value="debt" className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 flex gap-2 items-center">
-              <CreditCard className="h-4 w-4" />
-              <span>Debt</span>
-            </TabsTrigger>
-            <TabsTrigger value="credit" className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 flex gap-2 items-center">
-              <Shield className="h-4 w-4" />
-              <span>Credit</span>
-            </TabsTrigger>
-            <TabsTrigger value="retirement" className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 flex gap-2 items-center">
-              <Clock className="h-4 w-4" />
-              <span>Retirement</span>
-            </TabsTrigger>
-            <TabsTrigger value="planning" className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 flex gap-2 items-center">
-              <Calculator className="h-4 w-4" />
-              <span>Planning</span>
-            </TabsTrigger>
+            
+            {otherCategories.map(category => (
+              <TabsTrigger 
+                key={category.id}
+                value={category.id} 
+                className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 flex gap-2 items-center"
+              >
+                <category.icon className="h-4 w-4" />
+                <span>{category.label}</span>
+              </TabsTrigger>
+            ))}
           </TabsList>
           
           {activeFilter === "all" && (
-            <NavigationMenu className="max-w-4xl mx-auto">
-              <NavigationMenuList className="flex flex-wrap justify-center gap-2">
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-purple-50 text-purple-700 hover:bg-purple-100">
-                    <Layers className="h-4 w-4 mr-2" /> Mutual Funds
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <Button variant="ghost" className="w-full justify-start" onClick={() => onFilterChange("mutual-funds")}>
-                      All Mutual Funds
-                    </Button>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-purple-50 text-purple-700 hover:bg-purple-100">
-                    <TrendingUp className="h-4 w-4 mr-2" /> Stock Market
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <Button variant="ghost" className="w-full justify-start" onClick={() => onFilterChange("stock-market")}>
-                      Stock Market Basics
-                    </Button>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-purple-50 text-purple-700 hover:bg-purple-100">
-                    <Landmark className="h-4 w-4 mr-2" /> Fixed Deposits
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <Button variant="ghost" className="w-full justify-start" onClick={() => onFilterChange("fixed-deposits")}>
-                      Fixed Deposit Guides
-                    </Button>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-purple-50 text-purple-700 hover:bg-purple-100">
-                    <Home className="h-4 w-4 mr-2" /> Real Estate
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <Button variant="ghost" className="w-full justify-start" onClick={() => onFilterChange("real-estate")}>
-                      Property Investment
-                    </Button>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-purple-50 text-purple-700 hover:bg-purple-100">
-                    <Briefcase className="h-4 w-4 mr-2" /> PPF
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <Button variant="ghost" className="w-full justify-start" onClick={() => onFilterChange("ppf")}>
-                      Public Provident Fund
-                    </Button>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-purple-50 text-purple-700 hover:bg-purple-100">
-                    <Stars className="h-4 w-4 mr-2" /> ELSS
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <Button variant="ghost" className="w-full justify-start" onClick={() => onFilterChange("elss")}>
-                      Tax-saving Mutual Funds
-                    </Button>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-purple-50 text-purple-700 hover:bg-purple-100">
-                    <Building className="h-4 w-4 mr-2" /> NPS
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <Button variant="ghost" className="w-full justify-start" onClick={() => onFilterChange("nps")}>
-                      National Pension System
-                    </Button>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-purple-50 text-purple-700 hover:bg-purple-100">
-                    <Coins className="h-4 w-4 mr-2" /> Gold Bonds
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <Button variant="ghost" className="w-full justify-start" onClick={() => onFilterChange("gold-bonds")}>
-                      Sovereign Gold Bonds
-                    </Button>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+            <div className="mb-6">
+              <h3 className="text-lg font-medium text-purple-800 mb-3 text-center">Investment Vehicles</h3>
+              <NavigationMenu className="max-w-4xl mx-auto">
+                <NavigationMenuList className="flex flex-wrap justify-center gap-2">
+                  {investmentCategories.map(category => (
+                    <NavigationMenuItem key={category.id}>
+                      <NavigationMenuTrigger className="bg-purple-50 text-purple-700 hover:bg-purple-100">
+                        <category.icon className="h-4 w-4 mr-2" /> {category.label}
+                      </NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <Button 
+                          variant="ghost" 
+                          className="w-full justify-start" 
+                          onClick={() => onFilterChange(category.id)}
+                        >
+                          All {category.label}
+                        </Button>
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
+                  ))}
+                </NavigationMenuList>
+              </NavigationMenu>
+            </div>
           )}
         </Tabs>
       </div>
@@ -217,62 +160,16 @@ const TopicNavigation = ({ activeFilter, onFilterChange }: TopicNavigationProps)
               </Button>
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-2">
-              <Button 
-                variant="ghost" 
-                className="w-full justify-start" 
-                onClick={() => onFilterChange("mutual-funds")}
-              >
-                <Layers className="h-4 w-4 mr-2" /> Mutual Funds
-              </Button>
-              <Button 
-                variant="ghost" 
-                className="w-full justify-start" 
-                onClick={() => onFilterChange("stock-market")}
-              >
-                <TrendingUp className="h-4 w-4 mr-2" /> Stock Market
-              </Button>
-              <Button 
-                variant="ghost" 
-                className="w-full justify-start" 
-                onClick={() => onFilterChange("fixed-deposits")}
-              >
-                <Landmark className="h-4 w-4 mr-2" /> Fixed Deposits
-              </Button>
-              <Button 
-                variant="ghost" 
-                className="w-full justify-start" 
-                onClick={() => onFilterChange("real-estate")}
-              >
-                <Home className="h-4 w-4 mr-2" /> Real Estate
-              </Button>
-              <Button 
-                variant="ghost" 
-                className="w-full justify-start" 
-                onClick={() => onFilterChange("ppf")}
-              >
-                <Briefcase className="h-4 w-4 mr-2" /> PPF
-              </Button>
-              <Button 
-                variant="ghost" 
-                className="w-full justify-start" 
-                onClick={() => onFilterChange("elss")}
-              >
-                <Stars className="h-4 w-4 mr-2" /> ELSS
-              </Button>
-              <Button 
-                variant="ghost" 
-                className="w-full justify-start" 
-                onClick={() => onFilterChange("nps")}
-              >
-                <Building className="h-4 w-4 mr-2" /> NPS
-              </Button>
-              <Button 
-                variant="ghost" 
-                className="w-full justify-start" 
-                onClick={() => onFilterChange("gold-bonds")}
-              >
-                <Coins className="h-4 w-4 mr-2" /> Gold Bonds
-              </Button>
+              {investmentCategories.map(category => (
+                <Button 
+                  key={category.id}
+                  variant="ghost" 
+                  className="w-full justify-start" 
+                  onClick={() => onFilterChange(category.id)}
+                >
+                  <category.icon className="h-4 w-4 mr-2" /> {category.label}
+                </Button>
+              ))}
             </CollapsibleContent>
           </Collapsible>
         )}

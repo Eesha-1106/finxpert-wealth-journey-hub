@@ -1,20 +1,71 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calculator, PiggyBank, DollarSign } from "lucide-react";
+import { Calculator, PiggyBank, DollarSign, IndianRupee, Euro, PoundSterling } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const InteractiveCalculators = () => {
+  const [currency, setCurrency] = useState("inr");
+
+  const getCurrencySymbol = (currencyCode: string) => {
+    switch (currencyCode) {
+      case "inr":
+        return "₹";
+      case "usd":
+        return "$";
+      case "eur":
+        return "€";
+      case "gbp":
+        return "£";
+      default:
+        return "₹";
+    }
+  };
+
   return (
     <section id="calculators" className="py-12">
       <div className="text-center mb-10">
         <h2 className="text-3xl font-bold text-purple-900 mb-4">Interactive Financial Calculators</h2>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+        <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-6">
           Use these tools to help plan your financial future and make informed decisions.
         </p>
+        
+        <div className="max-w-xs mx-auto">
+          <Label htmlFor="currency-selector" className="text-sm text-left block mb-2">Select Currency</Label>
+          <Select value={currency} onValueChange={setCurrency}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select Currency" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Currencies</SelectLabel>
+                <SelectItem value="inr" className="flex items-center">
+                  <IndianRupee className="h-4 w-4 mr-2" /> Indian Rupee (₹)
+                </SelectItem>
+                <SelectItem value="usd" className="flex items-center">
+                  <DollarSign className="h-4 w-4 mr-2" /> US Dollar ($)
+                </SelectItem>
+                <SelectItem value="eur" className="flex items-center">
+                  <Euro className="h-4 w-4 mr-2" /> Euro (€)
+                </SelectItem>
+                <SelectItem value="gbp" className="flex items-center">
+                  <PoundSterling className="h-4 w-4 mr-2" /> British Pound (£)
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
       
       <Tabs defaultValue="loan" className="max-w-4xl mx-auto">
@@ -34,22 +85,22 @@ const InteractiveCalculators = () => {
         </TabsList>
         
         <TabsContent value="loan">
-          <LoanCalculator />
+          <LoanCalculator currencySymbol={getCurrencySymbol(currency)} />
         </TabsContent>
         
         <TabsContent value="investment">
-          <InvestmentCalculator />
+          <InvestmentCalculator currencySymbol={getCurrencySymbol(currency)} />
         </TabsContent>
         
         <TabsContent value="budget">
-          <BudgetCalculator />
+          <BudgetCalculator currencySymbol={getCurrencySymbol(currency)} />
         </TabsContent>
       </Tabs>
     </section>
   );
 };
 
-const LoanCalculator = () => {
+const LoanCalculator = ({ currencySymbol = "₹" }) => {
   const [loanAmount, setLoanAmount] = useState("10000");
   const [interestRate, setInterestRate] = useState("5");
   const [loanTerm, setLoanTerm] = useState("5");
@@ -61,12 +112,10 @@ const LoanCalculator = () => {
     const interest = parseFloat(interestRate) / 100 / 12;
     const payments = parseFloat(loanTerm) * 12;
     
-    // Calculate monthly payment
     const x = Math.pow(1 + interest, payments);
     const monthly = (principal * x * interest) / (x - 1);
     
     if (isFinite(monthly)) {
-      // Calculate total interest
       const totalInterestPaid = (monthly * payments) - principal;
       
       setMonthlyPayment(monthly);
@@ -83,7 +132,7 @@ const LoanCalculator = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
             <div>
-              <Label htmlFor="loanAmount">Loan Amount ($)</Label>
+              <Label htmlFor="loanAmount">Loan Amount ({currencySymbol})</Label>
               <Input 
                 id="loanAmount" 
                 type="number" 
@@ -124,14 +173,14 @@ const LoanCalculator = () => {
               <div>
                 <p className="text-sm text-gray-600">Monthly Payment</p>
                 <p className="text-2xl font-bold text-purple-900">
-                  {monthlyPayment ? `$${monthlyPayment.toFixed(2)}` : '-'}
+                  {monthlyPayment ? `${currencySymbol}${monthlyPayment.toFixed(2)}` : '-'}
                 </p>
               </div>
               
               <div>
                 <p className="text-sm text-gray-600">Total Interest Paid</p>
                 <p className="text-2xl font-bold text-purple-900">
-                  {totalInterest ? `$${totalInterest.toFixed(2)}` : '-'}
+                  {totalInterest ? `${currencySymbol}${totalInterest.toFixed(2)}` : '-'}
                 </p>
               </div>
               
@@ -139,7 +188,7 @@ const LoanCalculator = () => {
                 <p className="text-sm text-gray-600">Total Amount Paid</p>
                 <p className="text-2xl font-bold text-purple-900">
                   {monthlyPayment 
-                    ? `$${(monthlyPayment * parseFloat(loanTerm) * 12).toFixed(2)}` 
+                    ? `${currencySymbol}${(monthlyPayment * parseFloat(loanTerm) * 12).toFixed(2)}` 
                     : '-'}
                 </p>
               </div>
@@ -151,7 +200,7 @@ const LoanCalculator = () => {
   );
 };
 
-const InvestmentCalculator = () => {
+const InvestmentCalculator = ({ currencySymbol = "₹" }) => {
   const [initialInvestment, setInitialInvestment] = useState("1000");
   const [monthlyContribution, setMonthlyContribution] = useState("100");
   const [annualReturn, setAnnualReturn] = useState("8");
@@ -166,7 +215,6 @@ const InvestmentCalculator = () => {
     const rate = parseFloat(annualReturn) / 100 / 12;
     const periods = parseFloat(years) * 12;
     
-    // Calculate future value with monthly contributions
     let futureVal = initial;
     for (let i = 0; i < periods; i++) {
       futureVal = futureVal * (1 + rate) + monthly;
@@ -188,7 +236,7 @@ const InvestmentCalculator = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
             <div>
-              <Label htmlFor="initialInvestment">Initial Investment ($)</Label>
+              <Label htmlFor="initialInvestment">Initial Investment ({currencySymbol})</Label>
               <Input 
                 id="initialInvestment" 
                 type="number" 
@@ -197,7 +245,7 @@ const InvestmentCalculator = () => {
               />
             </div>
             <div>
-              <Label htmlFor="monthlyContribution">Monthly Contribution ($)</Label>
+              <Label htmlFor="monthlyContribution">Monthly Contribution ({currencySymbol})</Label>
               <Input 
                 id="monthlyContribution" 
                 type="number" 
@@ -238,21 +286,21 @@ const InvestmentCalculator = () => {
               <div>
                 <p className="text-sm text-gray-600">Future Value</p>
                 <p className="text-2xl font-bold text-purple-900">
-                  {futureValue ? `$${futureValue.toFixed(2)}` : '-'}
+                  {futureValue ? `${currencySymbol}${futureValue.toFixed(2)}` : '-'}
                 </p>
               </div>
               
               <div>
                 <p className="text-sm text-gray-600">Total Contributions</p>
                 <p className="text-2xl font-bold text-purple-900">
-                  {totalContributions ? `$${totalContributions.toFixed(2)}` : '-'}
+                  {totalContributions ? `${currencySymbol}${totalContributions.toFixed(2)}` : '-'}
                 </p>
               </div>
               
               <div>
                 <p className="text-sm text-gray-600">Interest Earned</p>
                 <p className="text-2xl font-bold text-purple-900">
-                  {interestEarned ? `$${interestEarned.toFixed(2)}` : '-'}
+                  {interestEarned ? `${currencySymbol}${interestEarned.toFixed(2)}` : '-'}
                 </p>
               </div>
             </div>
@@ -263,7 +311,7 @@ const InvestmentCalculator = () => {
   );
 };
 
-const BudgetCalculator = () => {
+const BudgetCalculator = ({ currencySymbol = "₹" }) => {
   const [monthlyIncome, setMonthlyIncome] = useState("5000");
   const [housing, setHousing] = useState("1500");
   const [utilities, setUtilities] = useState("300");
@@ -306,7 +354,7 @@ const BudgetCalculator = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
             <div>
-              <Label htmlFor="monthlyIncome">Monthly Income ($)</Label>
+              <Label htmlFor="monthlyIncome">Monthly Income ({currencySymbol})</Label>
               <Input 
                 id="monthlyIncome" 
                 type="number" 
@@ -319,7 +367,7 @@ const BudgetCalculator = () => {
             
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="housing">Housing ($)</Label>
+                <Label htmlFor="housing">Housing ({currencySymbol})</Label>
                 <Input 
                   id="housing" 
                   type="number" 
@@ -328,7 +376,7 @@ const BudgetCalculator = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="utilities">Utilities ($)</Label>
+                <Label htmlFor="utilities">Utilities ({currencySymbol})</Label>
                 <Input 
                   id="utilities" 
                   type="number" 
@@ -337,7 +385,7 @@ const BudgetCalculator = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="food">Food ($)</Label>
+                <Label htmlFor="food">Food ({currencySymbol})</Label>
                 <Input 
                   id="food" 
                   type="number" 
@@ -346,7 +394,7 @@ const BudgetCalculator = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="transportation">Transportation ($)</Label>
+                <Label htmlFor="transportation">Transportation ({currencySymbol})</Label>
                 <Input 
                   id="transportation" 
                   type="number" 
@@ -355,7 +403,7 @@ const BudgetCalculator = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="healthcare">Healthcare ($)</Label>
+                <Label htmlFor="healthcare">Healthcare ({currencySymbol})</Label>
                 <Input 
                   id="healthcare" 
                   type="number" 
@@ -364,7 +412,7 @@ const BudgetCalculator = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="entertainment">Entertainment ($)</Label>
+                <Label htmlFor="entertainment">Entertainment ({currencySymbol})</Label>
                 <Input 
                   id="entertainment" 
                   type="number" 
@@ -373,7 +421,7 @@ const BudgetCalculator = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="savings">Savings ($)</Label>
+                <Label htmlFor="savings">Savings ({currencySymbol})</Label>
                 <Input 
                   id="savings" 
                   type="number" 
@@ -382,7 +430,7 @@ const BudgetCalculator = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="other">Other ($)</Label>
+                <Label htmlFor="other">Other ({currencySymbol})</Label>
                 <Input 
                   id="other" 
                   type="number" 
@@ -410,7 +458,7 @@ const BudgetCalculator = () => {
                   <p className={`text-2xl font-bold ${
                     remainingBudget >= 0 ? 'text-green-600' : 'text-red-600'
                   }`}>
-                    ${remainingBudget.toFixed(2)}
+                    {currencySymbol}{remainingBudget.toFixed(2)}
                   </p>
                   {remainingBudget < 0 && (
                     <p className="text-sm text-red-600 mt-1">
@@ -425,7 +473,7 @@ const BudgetCalculator = () => {
                     {Object.entries(expenseBreakdown).map(([category, amount]) => (
                       <div key={category} className="flex justify-between">
                         <span className="text-sm">{category}</span>
-                        <span className="text-sm font-medium">${amount.toFixed(2)}</span>
+                        <span className="text-sm font-medium">{currencySymbol}{amount.toFixed(2)}</span>
                       </div>
                     ))}
                   </div>
@@ -434,7 +482,7 @@ const BudgetCalculator = () => {
                 <div className="mt-4 pt-4 border-t border-purple-200">
                   <p className="text-sm text-gray-600">Total Expenses</p>
                   <p className="text-xl font-bold text-purple-900">
-                    ${Object.values(expenseBreakdown).reduce((sum, expense) => sum + expense, 0).toFixed(2)}
+                    {currencySymbol}{Object.values(expenseBreakdown).reduce((sum, expense) => sum + expense, 0).toFixed(2)}
                   </p>
                 </div>
               </div>
