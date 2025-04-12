@@ -13,7 +13,7 @@ import {
   Briefcase, 
   Stars, 
   Building, 
-  GoldCoin 
+  Coins 
 } from "lucide-react";
 import {
   NavigationMenu,
@@ -159,7 +159,7 @@ const TopicNavigation = ({ activeFilter, onFilterChange }: TopicNavigationProps)
                 
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="bg-purple-50 text-purple-700 hover:bg-purple-100">
-                    <GoldCoin className="h-4 w-4 mr-2" /> Gold Bonds
+                    <Coins className="h-4 w-4 mr-2" /> Gold Bonds
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <Button variant="ghost" className="w-full justify-start" onClick={() => onFilterChange("gold-bonds")}>
@@ -271,7 +271,7 @@ const TopicNavigation = ({ activeFilter, onFilterChange }: TopicNavigationProps)
                 className="w-full justify-start" 
                 onClick={() => onFilterChange("gold-bonds")}
               >
-                <GoldCoin className="h-4 w-4 mr-2" /> Gold Bonds
+                <Coins className="h-4 w-4 mr-2" /> Gold Bonds
               </Button>
             </CollapsibleContent>
           </Collapsible>

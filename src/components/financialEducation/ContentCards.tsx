@@ -26,7 +26,7 @@ import {
   Layers,
   Landmark,
   Briefcase,
-  GoldCoin,
+  Coins,
   Stars,
   Home
 } from "lucide-react";
@@ -338,7 +338,7 @@ const topics = [
     id: 16,
     title: "Sovereign Gold Bonds",
     description: "Learn about investing in gold without physical possession through Sovereign Gold Bonds.",
-    icon: GoldCoin,
+    icon: Coins,
     category: "gold-bonds",
     difficulty: "beginner",
     progress: 0,
@@ -424,7 +424,7 @@ const ContentCards = ({ activeFilter, searchQuery }: ContentCardsProps) => {
       case "nps":
         return Building;
       case "gold-bonds":
-        return GoldCoin;
+        return Coins;
       default:
         return Info;
     }
