@@ -48,8 +48,23 @@ interface ContentCardsProps {
   searchQuery: string;
 }
 
-// Investment product topics (prioritized)
-const investmentTopics = [
+interface Topic {
+  id: number;
+  title: string;
+  description: string;
+  icon: React.ForwardRefExoticComponent<any>;
+  category: string;
+  difficulty: string;
+  progress: number;
+  tooltipText: string;
+  expandedContent: {
+    summary: string;
+    bulletPoints: string[];
+  };
+  subcategory?: string;
+}
+
+const investmentTopics: Topic[] = [
   {
     id: 9,
     title: "Mutual Fund Investing",
@@ -212,8 +227,7 @@ const investmentTopics = [
   }
 ];
 
-// Other financial topics
-const otherTopics = [
+const otherTopics: Topic[] = [
   {
     id: 1,
     title: "Understanding Market Basics",
@@ -349,8 +363,7 @@ const otherTopics = [
   }
 ];
 
-// Combine all topics with investment topics first
-const topics = [...investmentTopics, ...otherTopics];
+const topics: Topic[] = [...investmentTopics, ...otherTopics];
 
 const ContentCards = ({ activeFilter, searchQuery }: ContentCardsProps) => {
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
@@ -362,7 +375,7 @@ const ContentCards = ({ activeFilter, searchQuery }: ContentCardsProps) => {
     const categoryMatch = 
       activeFilter === "all" || 
       topic.category === activeFilter || 
-      topic.subcategory === activeFilter;
+      (topic.subcategory && topic.subcategory === activeFilter);
     
     const searchMatch = 
       !searchQuery || 

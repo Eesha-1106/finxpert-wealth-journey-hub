@@ -32,7 +32,30 @@ const conversionRates = {
   THB: 2.3, // 1 THB = 2.3 INR
 };
 
-const stories = [
+// Define the Timeline item interface
+interface TimelineItem {
+  year: number;
+  event: string;
+  amount?: number;
+  currency?: string;
+}
+
+// Define the Story interface
+interface Story {
+  id: number;
+  name: string;
+  age: number;
+  occupation: string;
+  title: string;
+  summary: string;
+  timeline: TimelineItem[];
+  lessons: string[];
+  category: string;
+  image: string;
+  currency: string;
+}
+
+const stories: Story[] = [
   {
     id: 1,
     name: "Sarah Johnson",
@@ -237,7 +260,6 @@ const RealStories = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {filteredStories.map((story) => {
-          const Icon = story.icon;
           const CategoryIcon = getCategoryIcon(story.category);
           const CurrencyIcon = story.currency === "INR" ? IndianRupee : DollarSign;
           

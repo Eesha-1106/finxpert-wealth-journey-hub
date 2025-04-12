@@ -37,17 +37,7 @@ interface TopicNavigationProps {
   onFilterChange: (filter: string) => void;
 }
 
-// Financial categories
-const categories = [
-  { id: "all", label: "All Topics" },
-  { id: "investing", label: "General Investing", icon: TrendingUp },
-  { id: "debt", label: "Debt Management", icon: CreditCard },
-  { id: "credit", label: "Credit Score", icon: Shield },
-  { id: "retirement", label: "Retirement", icon: Clock },
-  { id: "planning", label: "Financial Planning", icon: Calculator },
-];
-
-// Investment products
+// Investment products (prioritized)
 const investmentProducts = [
   { id: "mutual-funds", label: "Mutual Funds", icon: Layers },
   { id: "stock-market", label: "Stock Market", icon: TrendingUp },
@@ -57,6 +47,23 @@ const investmentProducts = [
   { id: "elss", label: "ELSS", icon: Stars },
   { id: "nps", label: "NPS", icon: Building },
   { id: "gold-bonds", label: "Gold Bonds", icon: Coins },
+];
+
+// Financial categories (shown after investment products)
+const categories = [
+  { id: "all", label: "All Topics" },
+  { id: "investing", label: "General Investing", icon: TrendingUp },
+  { id: "debt", label: "Debt Management", icon: CreditCard },
+  { id: "credit", label: "Credit Score", icon: Shield },
+  { id: "retirement", label: "Retirement", icon: Clock },
+  { id: "planning", label: "Financial Planning", icon: Calculator },
+];
+
+// Combine all categories with All Topics first, then investment products, then other categories
+const allCategories = [
+  categories[0], // All Topics
+  ...investmentProducts,
+  ...categories.slice(1) // Other general categories
 ];
 
 const TopicNavigation = ({ activeFilter, onFilterChange }: TopicNavigationProps) => {
@@ -73,15 +80,16 @@ const TopicNavigation = ({ activeFilter, onFilterChange }: TopicNavigationProps)
           onValueChange={onFilterChange}
           className="w-full"
         >
-          <TabsList className="w-full max-w-4xl mx-auto grid grid-cols-6 gap-2 mb-4">
-            {categories.map(category => (
+          <TabsList className="w-full max-w-4xl mx-auto grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 mb-4">
+            {allCategories.map(category => (
               <TabsTrigger 
                 key={category.id}
                 value={category.id} 
                 className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 flex gap-2 items-center"
               >
                 {category.icon && <category.icon className="h-4 w-4" />}
-                <span>{category.label}</span>
+                <span className="hidden sm:inline">{category.label}</span>
+                <span className="sm:hidden">{category.label.split(' ')[0]}</span>
               </TabsTrigger>
             ))}
           </TabsList>
@@ -104,6 +112,16 @@ const TopicNavigation = ({ activeFilter, onFilterChange }: TopicNavigationProps)
               <TrendingUp className="h-4 w-4" />
               <span>Investing</span>
             </TabsTrigger>
+            {investmentProducts.map(product => (
+              <TabsTrigger
+                key={product.id}
+                value={product.id}
+                className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 flex gap-2 items-center"
+              >
+                <product.icon className="h-4 w-4" />
+                <span>{product.label.split(' ')[0]}</span>
+              </TabsTrigger>
+            ))}
             <TabsTrigger value="debt" className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 flex gap-2 items-center">
               <CreditCard className="h-4 w-4" />
               <span>Debt</span>
