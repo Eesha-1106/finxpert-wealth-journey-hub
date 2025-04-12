@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { 
   Card, 
@@ -22,7 +21,14 @@ import {
   DollarSign,
   ArrowRight,
   Info,
-  Calendar
+  Calendar,
+  Building,
+  Layers,
+  Landmark,
+  Briefcase,
+  GoldCoin,
+  Stars,
+  Home
 } from "lucide-react";
 import {
   Tooltip,
@@ -194,6 +200,158 @@ const topics = [
         "Maximizing Social Security benefits"
       ]
     }
+  },
+  {
+    id: 9,
+    title: "Mutual Fund Investing",
+    description: "Understanding mutual funds, their types, and how to select the right ones for your portfolio.",
+    icon: Layers,
+    category: "mutual-funds",
+    difficulty: "beginner",
+    progress: 0,
+    tooltipText: "Mutual funds pool money from multiple investors to purchase diversified securities.",
+    expandedContent: {
+      summary: "Learn the fundamentals of mutual funds and how to incorporate them into your investment strategy.",
+      bulletPoints: [
+        "Types of mutual funds: equity, debt, hybrid, and more",
+        "Understanding expense ratios and fund management",
+        "How to analyze mutual fund performance",
+        "Regular investments through SIPs (Systematic Investment Plans)"
+      ]
+    }
+  },
+  {
+    id: 10,
+    title: "Stock Market Essentials",
+    description: "Learn how to analyze stocks, understand market movements, and build a direct equity portfolio.",
+    icon: TrendingUp,
+    category: "stock-market",
+    difficulty: "intermediate",
+    progress: 0,
+    tooltipText: "Stocks represent ownership in a company and can be bought and sold on stock exchanges.",
+    expandedContent: {
+      summary: "Understand stock market dynamics and develop your stock investing strategy.",
+      bulletPoints: [
+        "Fundamental vs. technical analysis explained",
+        "How to read company financial statements",
+        "Identifying growth vs. value stocks",
+        "Managing risk in direct equity investments"
+      ]
+    }
+  },
+  {
+    id: 11,
+    title: "Fixed Deposits Guide",
+    description: "Explore how fixed deposits work, their benefits, and how to maximize returns in a low-risk environment.",
+    icon: Landmark,
+    category: "fixed-deposits",
+    difficulty: "beginner",
+    progress: 0,
+    tooltipText: "Fixed deposits offer guaranteed returns over a fixed period with minimal risk.",
+    expandedContent: {
+      summary: "Learn everything about fixed deposits and their role in a balanced portfolio.",
+      bulletPoints: [
+        "Benefits and limitations of fixed deposits",
+        "Regular vs. tax-saver fixed deposits",
+        "Strategies to ladder fixed deposits for liquidity",
+        "FD rates comparison across different banks"
+      ]
+    }
+  },
+  {
+    id: 12,
+    title: "Real Estate Investment",
+    description: "Understanding the real estate market, property valuation, and strategies for successful investments.",
+    icon: Home,
+    category: "real-estate",
+    difficulty: "advanced",
+    progress: 0,
+    tooltipText: "Real estate can be a valuable asset class that provides both rental income and potential appreciation.",
+    expandedContent: {
+      summary: "Explore the fundamentals of real estate investing and property management.",
+      bulletPoints: [
+        "Residential vs. commercial real estate investing",
+        "Analyzing locations and property appreciation potential",
+        "Calculating rental yields and ROI",
+        "REITs (Real Estate Investment Trusts) as alternatives"
+      ]
+    }
+  },
+  {
+    id: 13,
+    title: "Public Provident Fund (PPF)",
+    description: "Learn about PPF, its tax benefits, and how to use it effectively for long-term wealth creation.",
+    icon: Briefcase,
+    category: "ppf",
+    difficulty: "beginner",
+    progress: 0,
+    tooltipText: "PPF is a government-backed savings scheme with attractive interest rates and tax benefits.",
+    expandedContent: {
+      summary: "Understand the benefits and strategies for maximizing your PPF investments.",
+      bulletPoints: [
+        "PPF account opening and contribution rules",
+        "Tax benefits under Section 80C and EEE status",
+        "Loan and withdrawal facilities from PPF",
+        "PPF as part of your retirement portfolio"
+      ]
+    }
+  },
+  {
+    id: 14,
+    title: "Equity Linked Savings Scheme (ELSS)",
+    description: "Explore ELSS mutual funds, their tax advantages, and how they compare to other tax-saving instruments.",
+    icon: Stars,
+    category: "elss",
+    difficulty: "intermediate",
+    progress: 0,
+    tooltipText: "ELSS funds are tax-saving mutual funds with the shortest lock-in period among tax-saving instruments.",
+    expandedContent: {
+      summary: "Learn how ELSS can help you save taxes while generating potentially higher returns.",
+      bulletPoints: [
+        "ELSS vs. other tax-saving options under Section 80C",
+        "Understanding the 3-year lock-in period",
+        "Analyzing ELSS fund performance",
+        "SIP vs. lump sum investments in ELSS"
+      ]
+    }
+  },
+  {
+    id: 15,
+    title: "National Pension System (NPS)",
+    description: "Understanding NPS, its tiers, investment options, and tax benefits for retirement planning.",
+    icon: Building,
+    category: "nps",
+    difficulty: "intermediate",
+    progress: 0,
+    tooltipText: "NPS is a voluntary retirement savings scheme designed to provide pension in old age.",
+    expandedContent: {
+      summary: "Explore the structure and benefits of investing in the National Pension System.",
+      bulletPoints: [
+        "NPS Tier 1 vs. Tier 2 accounts explained",
+        "Asset allocation options in NPS",
+        "Tax benefits under Section 80CCD",
+        "Withdrawal rules and annuity purchase at maturity"
+      ]
+    }
+  },
+  {
+    id: 16,
+    title: "Sovereign Gold Bonds",
+    description: "Learn about investing in gold without physical possession through Sovereign Gold Bonds.",
+    icon: GoldCoin,
+    category: "gold-bonds",
+    difficulty: "beginner",
+    progress: 0,
+    tooltipText: "Sovereign Gold Bonds are government securities denominated in grams of gold, offering an alternative to physical gold.",
+    expandedContent: {
+      summary: "Understand how Sovereign Gold Bonds work and their advantages over physical gold.",
+      bulletPoints: [
+        "Issue price and interest payments",
+        "Tax advantages of Sovereign Gold Bonds",
+        "Redemption options and capital gains",
+        "SGB as a portfolio diversifier"
+      ]
+    }
   }
 ];
 
@@ -204,10 +362,8 @@ const ContentCards = ({ activeFilter, searchQuery }: ContentCardsProps) => {
   );
 
   const filteredTopics = topics.filter(topic => {
-    // Filter by category
     const categoryMatch = activeFilter === "all" || topic.category === activeFilter;
     
-    // Filter by search query
     const searchMatch = 
       !searchQuery || 
       topic.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -218,10 +374,8 @@ const ContentCards = ({ activeFilter, searchQuery }: ContentCardsProps) => {
   });
 
   const handleLearnMore = (topicId: number) => {
-    // Toggle expanded state
     setExpandedCard(expandedCard === topicId ? null : topicId);
     
-    // Update progress
     if (userProgress[topicId] < 100) {
       setUserProgress({
         ...userProgress,
@@ -255,6 +409,22 @@ const ContentCards = ({ activeFilter, searchQuery }: ContentCardsProps) => {
         return Clock;
       case "planning":
         return Calculator;
+      case "mutual-funds":
+        return Layers;
+      case "stock-market":
+        return TrendingUp;
+      case "fixed-deposits":
+        return Landmark;
+      case "real-estate":
+        return Home;
+      case "ppf":
+        return Briefcase;
+      case "elss":
+        return Stars;
+      case "nps":
+        return Building;
+      case "gold-bonds":
+        return GoldCoin;
       default:
         return Info;
     }
